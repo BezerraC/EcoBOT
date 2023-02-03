@@ -126,22 +126,30 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
-@bot.command(name="eco", aliases=["e"])
-async def eco(ctx,*,args): 
-  """Inicia a conversa com a I.A integrada"""
-  GPT_TOKEN = os.getenv("GPT_TOKEN")
-  query = ctx.message.content
-  response = openai.Completion.create(
-      api_key = GPT_TOKEN,
-      model="text-davinci-003",
-      prompt=query,
-      temperature=0.5,
-      max_tokens=1500,
-      top_p=0.3,
-      frequency_penalty=0.5,
-      presence_penalty=0.0
-  )
-  await ctx.channel.send(content=response['choices'][0]['text'].replace(str(query), ""))
+
+# async def eco(ctx): 
+#   """Inicia a conversa com a I.A integrada"""
+#   GPT_TOKEN = os.getenv("GPT_TOKEN")
+#   query = ctx.content
+#   response = openai.Completion.create(
+#       api_key = GPT_TOKEN,
+#       model="text-davinci-003",
+#       prompt=query,
+#       temperature=0.5,
+#       max_tokens=1500,
+#       top_p=0.3,
+#       frequency_penalty=0.5,
+#       presence_penalty=0.0
+#   )
+#   await ctx.channel.send(content=response['choices'][0]['text'].replace(str(query), ""))
+
+# @bot.event
+# async def on_message(ctx):
+#     if ctx.author == bot.user:
+#         return
+
+#     if 'eco' in ctx.content:
+#         await eco(ctx)
 
 @bot.command(name="rank", aliases=["rk"])
 async def rank(ctx, member: discord.Member=None):
@@ -826,6 +834,7 @@ async def on_reaction_add(reaction, user):
 bot.load_extension("cogs.music")
 bot.load_extension("cogs.meme")
 bot.load_extension("cogs.events")
+bot.load_extension("cogs.ecoia")
 bot.load_extension("cogs.help")
 bot.load_extension("cogs.news")
 bot.load_extension("cogs.error_handler")

@@ -15,8 +15,9 @@ class News(commands.Cog):
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
 
         description = f"Confira as últimas atualizações\n\n"
-        description += "**(Return) Meme** \nVoltamos com o comando `/meme` contando com mais variedade de memes de qualidade\n\n"
+       
         description += "**Música** \nAdicionado o comando `/stop`.\n\n"
+        description += "**Eco I.A** \nChame o Eco Bot apenas digitando `eco` em qualquer lugar de sua frase sem a necessidade do prefixo.\n\n"
         
         description += "Desenvolvido por: Eco#0745 \n\n"
         description += "*para mais informações acione o [desenvolvedor](https://discord.gg/HahR7qjQ7s)*"

@@ -24,7 +24,9 @@ class Meme(commands.Cog):
         async with aiohttp.ClientSession() as cs:
             a = 'DiretoDoZapZap'
             b = 'HUEStation'
-            y = format(random.choice([a, b]))
+            c = 'BrazilMemes'
+            d = 'MemesBR'
+            y = format(random.choice([a, b, c, d]))
             x =  f'https://meme-api.com/gimme/{str(y)}'
             print(x)
             async with cs.get(x) as r:
