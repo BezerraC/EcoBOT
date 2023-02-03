@@ -1,5 +1,7 @@
 
+import asyncio
 import os
+import re
 
 import aiohttp
 import aiosqlite
@@ -24,7 +26,7 @@ class Ecoia(commands.Cog):
         """Inicia a conversa com a I.A integrada"""
         if 'eco' in ctx.content:
             GPT_TOKEN = os.getenv("GPT_TOKEN")
-            query = ctx.content
+            query = ctx.content.replace("eco","")
             response = openai.Completion.create(
                 api_key = GPT_TOKEN,
                 model="text-davinci-003",
@@ -36,6 +38,7 @@ class Ecoia(commands.Cog):
                 presence_penalty=0.0
             )
             await ctx.channel.send(content=response['choices'][0]['text'].replace(str(query), ""))
+            print (query)
 
 def setup(bot):
     bot.add_cog(Ecoia(bot))
