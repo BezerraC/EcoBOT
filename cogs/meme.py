@@ -19,7 +19,7 @@ class Meme(commands.Cog):
         self.URL_REG = re.compile(r"https?://(?:www\.)?.+")
 
     @commands.command(name="memebr", aliases=["mbr"])
-    async def meme(self, ctx):
+    async def memebr(self, ctx):
         """Displays a meme from a Brazilian subreddit"""
         async with aiohttp.ClientSession() as cs:
             a = 'DiretoDoZapZap'
@@ -36,7 +36,7 @@ class Meme(commands.Cog):
                 await ctx.send(embed=embed)
 
     @commands.command(name="memeus", aliases=["mus"])
-    async def meme(self, ctx):
+    async def memeus(self, ctx):
         """Displays a meme from an American subreddit"""
         async with aiohttp.ClientSession() as cs:
             x =  f'https://meme-api.com/gimme/memes'
