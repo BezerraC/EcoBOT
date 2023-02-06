@@ -17,7 +17,7 @@ class HelpCog(commands.HelpCommand):
 
         description = f"For more detailed help write: `{prefix}help <command>` \n\n"
         description += "For the latest updates write: `/news` \n\n"
-        description += "**I.A Commands** \n`eco` Inicie uma conversa com a I.A Integrada, ex: fala comigo eco..\n\n"
+        description += "**I.A Commands** \n`eco` Start a conversation with the Integrated AI, e.g. talk to me eco..\n\n"
         description += "**Music Commands** \n`/play` Search and play any song\n\n`/stop` Stop the music player\n\n`/skip` Skip to next song\n\n`/pause` Pause the music\n\n`/resume` Go back where the music left off\n\n`/seek` Fast-forward or rewind as many seconds of the song\n\n`/volume` Change bot volume\n\n`/loop` Loop the music with 3 possible options\n\n`/nowplaying` See the song that is currently playing\n\n`/queue` Show the song list\n\n`/equalizer` Change music equalization with 3 different options\n\n`/lyrics` See the lyrics of the song\n\n"
         description += "**Level Commands** \n`/rank` Show your level on the server\n\n`/leaderboard` Show server leaderboard\n\n "
         description += "**Games Commands** \n Tic Tac Toe:\n `/tictactoe` Start tic-tac-toe with one player\n\n `/place` Informs the position of the chosen location from 1 to 9\n\n Tetris:\n `/tetris` Start the tetris game\n\n"
