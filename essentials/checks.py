@@ -10,7 +10,7 @@ def voice_connected():
             ctx.author.voice.channel
             return True
         except AttributeError:
-            raise NotConnectedToVoice("Ops, parece que você não está conectado em nenhum canal de voz.")
+            raise NotConnectedToVoice("Oops, looks like you're not logged into any voice channels.")
 
     return commands.check(predicate)
 
@@ -20,7 +20,7 @@ def player_connected():
         player: WebPlayer = ctx.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
 
         if not player.is_connected:
-            raise PlayerNotConnected("Eco BOT não está conectado em nenhum canal de voz.")
+            raise PlayerNotConnected("Eco BOT is not connected to any voice channel.")
         return True
 
     return commands.check(predicate)
@@ -31,13 +31,13 @@ def in_same_channel():
         player: WebPlayer = ctx.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
 
         if not player.is_connected:
-            raise PlayerNotConnected("Eco BOT não está conectado em nenhum canal de voz.")
+            raise PlayerNotConnected("Eco BOT is not connected to any voice channel.")
 
         try:
             return player.channel_id == ctx.author.voice.channel.id
         except:
             raise MustBeSameChannel(
-                "Por favor entre no canal de voz em que estou conectado."
+                "Please join the voice channel I am connected to."
             )
 
     return commands.check(predicate)

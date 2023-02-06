@@ -2,18 +2,18 @@ from discord.ext.commands.errors import CheckFailure
 
 
 class NotConnectedToVoice(CheckFailure):
-    """Usuário não conectado a nenhum canal de voz"""
+    """User not connected to any voice channels"""
 
     pass
 
 
 class PlayerNotConnected(CheckFailure):
-    """EcoDj não conectou"""
+    """Eco Bot not connected"""
 
     pass
 
 
 class MustBeSameChannel(CheckFailure):
-    """Creio que não estamos no mesmo canal de voz"""
+    """I think we are not on the same voice channel"""
 
     pass

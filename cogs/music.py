@@ -14,7 +14,7 @@ from essentials.player import WebPlayer
 
 
 class Music(commands.Cog):
-    """Comandos De Música"""
+    """Music Commands"""
 
     def __init__(self, bot):
         self.bot = bot
@@ -23,7 +23,7 @@ class Music(commands.Cog):
     @commands.command(name="connect", aliases=["con", "c"])
     @voice_connected()
     async def connect_(self, ctx):
-        """Conecta o Eco BOT"""
+        """Connect the Eco BOT"""
         player: WebPlayer = self.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
 
         if player.is_connected:
@@ -32,21 +32,21 @@ class Music(commands.Cog):
 
             if player.channel_id == ctx.channel.id:
                 return await ctx.send(
-                    f"Eco BOT está conectado a um canal de voz diferente."
+                    f"Echo BOT is connected to a different voice channel."
                 )
 
             return await ctx.send(
-                "Eco BOT já se encontra conectado ao seu canal de voz."
+                "Eco BOT is already connected to your voice channel."
             )
 
         channel = ctx.author.voice.channel
         self.bot.voice_users[ctx.author.id] = channel.id
 
-        msg = await ctx.send(f"Conectando em **`{channel.name}`**")
+        msg = await ctx.send(f"Connecting in **`{channel.name}`**")
         await player.connect(channel.id)
         player.bound_channel = ctx.channel
         await msg.edit(
-            content=f"Conectado em **`{channel.name}`** " #and bounded to {ctx.channel.mention}
+            content=f"Logged in **`{channel.name}`** " #and bounded to {ctx.channel.mention}
         )
 
     @commands.command(name="stop", aliases=["st"])
@@ -54,15 +54,15 @@ class Music(commands.Cog):
     @player_connected()
     @in_same_channel()
     async def disconnect_(self, ctx):
-        """Para todo o player de música"""
+        """Stop all music player"""
         player: WebPlayer = self.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
-        await ctx.send(f"Desconectando, até breve...")
+        await ctx.send(f"Disconnecting, see you soon...")
         await player.destroy()
 
     @commands.command(name="play", aliases=["p"])
     @voice_connected()
     async def play_(self, ctx, *, query):
-        """Tocar ou adicionar música à fila"""
+        """Play or add music to queue"""
         player: WebPlayer = self.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
 
         if not player.is_connected:
@@ -70,10 +70,10 @@ class Music(commands.Cog):
 
         if ctx.channel != player.bound_channel:
             return await ctx.send(
-                f"Epa, estou sendo usado no canal {player.bound_channel.mention}", delete_after=5
+                f"Whoops, I'm being used on the channel {player.bound_channel.mention}", delete_after=5
             )
 
-        msg = await ctx.send(f"Procurando por `{query}` :mag_right:")
+        msg = await ctx.send(f"Looking for `{query}` :mag_right:")
         query = query.strip("<>")
         if not self.URL_REG.match(query):
             query = f"ytsearch:{query}"
@@ -81,19 +81,19 @@ class Music(commands.Cog):
         tracks = await self.bot.wavelink.get_tracks(query)
 
         if not tracks:
-            return await msg.edit(content="Não consegui encontrar nenhum resultado com essa consulta.")
+            return await msg.edit(content="I couldn't find any results with this query.")
 
         if isinstance(tracks, wavelink.TrackPlaylist):
             for track in tracks.tracks:
                 await player.queue.put(track)
 
             msg.edit(
-                content=f'Adicionando a playlist **{tracks.data["playlistInfo"]["name"]}** com **{len(tracks.tracks)}** músicas à fila.'
+                content=f'Adding to playlist **{tracks.data["playlistInfo"]["name"]}** with **{len(tracks.tracks)}** songs in the queue.'
             )
         else:
             await player.queue.put(tracks[0])
 
-            await msg.edit(content=f"Adicionando **{str(tracks[0])}** à fila.")
+            await msg.edit(content=f"Adding **{str(tracks[0])}** in the queue.")
 
         if not player.is_playing:
             await player.do_next()
@@ -103,20 +103,20 @@ class Music(commands.Cog):
     @player_connected()
     @in_same_channel()
     async def skip(self, ctx):
-        """Pula a atual música"""
+        """Skip the current song"""
         player: WebPlayer = self.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
 
         if ctx.channel != player.bound_channel:
             return await ctx.send(
-                f"Epa, estou sendo usado no canal {player.bound_channel.mention}", delete_after=5
+                f"Whoops, I'm being used on the channel {player.bound_channel.mention}", delete_after=5
             )
 
         current_loop = player.loop
-        player.loop = "NENHUM"
+        player.loop = "NONE"
 
         await player.stop()
 
-        if current_loop != "ATUAL":
+        if current_loop != "CURRENT":
             player.loop = current_loop
 
     @commands.command()
@@ -124,56 +124,56 @@ class Music(commands.Cog):
     @player_connected()
     @in_same_channel()
     async def pause(self, ctx):
-        """Pausa o player de música"""
+        """Pause the music player"""
         player: WebPlayer = self.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
 
         if ctx.channel != player.bound_channel:
             return await ctx.send(
-                f"Epa, estou sendo usado no canal {player.bound_channel.mention}", delete_after=5
+                f"Whoops, I'm being used on the channel {player.bound_channel.mention}", delete_after=5
             )
 
         if player.is_playing:
             if player.is_paused:
-                return await ctx.send("A música já está pausada.")
+                return await ctx.send("The music is already paused.")
 
             await player.set_pause(pause=True)
-            return await ctx.send("Pausando a música.")
+            return await ctx.send("Pausing the music.")
 
-        await ctx.send("Epa, não estou tocando nada no momento.")
+        await ctx.send("Whoops, I'm not playing anything at the moment.")
 
     @commands.command()
     @player_connected()
     @voice_connected()
     @in_same_channel()
     async def resume(self, ctx):
-        """Volta a reproduzir a música"""
+        """Play music again"""
         player: WebPlayer = self.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
 
         if ctx.channel != player.bound_channel:
             return await ctx.send(
-                f"Epa, estou sendo usado no canal {player.bound_channel.mention}", delete_after=5
+                f"Whoops, I'm being used on the channel {player.bound_channel.mention}", delete_after=5
             )
 
         if player.is_playing:
             if not player.is_paused:
-                return await ctx.send("A música não está pausada.")
+                return await ctx.send("Music is not paused.")
 
             await player.set_pause(pause=False)
-            return await ctx.send("Opa rodando a música de novo.")
+            return await ctx.send("Running music again.")
 
-        await ctx.send("Ops, não estou tocando nenhuma música.")
+        await ctx.send("Oops, I'm not playing any music.")
 
     @commands.command()
     @voice_connected()
     @player_connected()
     @in_same_channel()
     async def seek(self, ctx, seconds: int, reverse: bool = False):
-        """Avança a música para frente ou para trás"""
+        """Skip the song forward or backward"""
         player: WebPlayer = self.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
 
         if ctx.channel != player.bound_channel:
             return await ctx.send(
-                f"Epa, estou sendo usado no canal {player.bound_channel.mention}", delete_after=5
+                f"Whoops, I'm being used on the channel {player.bound_channel.mention}", delete_after=5
             )
 
         if player.is_playing:
@@ -188,82 +188,82 @@ class Music(commands.Cog):
                         new_position = 0
 
                 await player.seek(new_position)
-                return await ctx.send(f"Avançando para {seconds} segundos.")
+                return await ctx.send(f"Moving forward to {seconds} seconds.")
 
             return await ctx.send(
-                "Música pausada. Use !resume para usar esse comando."
+                "Music paused. Use !resume to use this command."
             )
 
-        await ctx.send("Ixi, parece que não estou tocando nada.")
+        await ctx.send("Bruh, it feels like I'm not playing anything.")
 
     @commands.command(aliases=["vol"])
     @voice_connected()
     @player_connected()
     @in_same_channel()
     async def volume(self, ctx, vol: int, forced=False):
-        """Define um volume"""
+        """Defines a volume"""
         player: WebPlayer = self.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
 
         if ctx.channel != player.bound_channel:
             return await ctx.send(
-                f"Epa, estou sendo usado no canal {player.bound_channel.mention}", delete_after=5
+                f"Whoops, I'm being used on the channel {player.bound_channel.mention}", delete_after=5
             )
 
         if vol < 0:
-            return await ctx.send("O volume não pode ser menor que 0")
+            return await ctx.send("Volume cannot be less than 0")
 
         if vol > 100 and not forced:
-            return await ctx.send("O volume não pode ser maior que 100")
+            return await ctx.send("Volume cannot be greater than 100")
 
         await player.set_volume(vol)
-        await ctx.send(f"Volume definido em {vol}")
+        await ctx.send(f"Volume set to {vol}")
 
     @commands.command()
     @voice_connected()
     @player_connected()
     @in_same_channel()
     async def loop(self, ctx, type: str):
-        """Define o loop como `NENHUM`, `ATUAL` ou `PLAYLIST`"""
+        """Set the loop to `NONE`, `CURRENT` or `PLAYLIST`"""
         player: WebPlayer = self.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
 
         if ctx.channel != player.bound_channel:
             return await ctx.send(
-                f"Epa, estou sendo usado no canal {player.bound_channel.mention}", delete_after=5
+                f"Whoops, I'm being used on the channel {player.bound_channel.mention}", delete_after=5
             )
 
-        valid_types = ["NENHUM", "ATUAL", "PLAYLIST"]
+        valid_types = ["NONE", "CURRENT", "PLAYLIST"]
         type = type.upper()
 
         if type not in valid_types:
-            return await ctx.send("O tipo de loop deve ser `NENHUM`, `ATUAL` ou `PLAYLIST`.")
+            return await ctx.send("The loop type must be `NONE`, `CURRENT` or `PLAYLIST`.")
 
         if len(player.queue._queue) < 1 and type == "PLAYLIST":
             return await ctx.send(
-                "Deve haver 2 músicas na fila para usar o loop PLAYLIST"
+                "There must be 2 songs in the queue to use the PLAYLIST loop"
             )
 
         if not player.is_playing:
-            return await ctx.send("Não estou tocando nenhuma faixa. Não é possível fazer um loop")
+            return await ctx.send("I'm not playing any tracks. Unable to loop")
 
         player.loop = type
 
-        await ctx.send(f"O player agora está em loop `{type}`")
+        await ctx.send(f"The player is now looping `{type}`")
 
     @commands.command(aliases=["np"])
     @voice_connected()
     @player_connected()
     @in_same_channel()
     async def nowplaying(self, ctx):
-        """O que está tocando agora?"""
+        """What's playing now?"""
         player: WebPlayer = self.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
 
         if ctx.channel != player.bound_channel:
             return await ctx.send(
-                f"Epa, estou sendo usado no canal {player.bound_channel.mention}", delete_after=5
+                f"Whoops, I'm being used on the channel {player.bound_channel.mention}", delete_after=5
             )
 
         if not player.current:
-            return await ctx.send("Nada está sendo reproduzido.")
+            return await ctx.send("Nothing is playing.")
 
         await player.invoke_player()
 
@@ -272,12 +272,12 @@ class Music(commands.Cog):
     @player_connected()
     @in_same_channel()
     async def queue(self, ctx):
-        """Músicas na fila de reprodução"""
+        """Songs in the Play Queue"""
         player: WebPlayer = self.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
 
         if ctx.channel != player.bound_channel:
             return await ctx.send(
-                f"Epa, estou sendo usado no canal {player.bound_channel.mention}", delete_after=5
+                f"Whoops, I'm being used on the channel {player.bound_channel.mention}", delete_after=5
             )
 
         queue = player.queue._queue
@@ -288,8 +288,8 @@ class Music(commands.Cog):
         embed.set_author(name="Queue", icon_url="https://cdn.shahriyar.dev/list.png")
 
         tracks = ""
-        if player.loop == "ATUAL":
-            next_song = f"Prôxima > [{player.current.title}]({player.current.uri}) \n\n"
+        if player.loop == "CURRENT":
+            next_song = f"Next > [{player.current.title}]({player.current.uri}) \n\n"
         else:
             next_song = ""
 
@@ -308,12 +308,12 @@ class Music(commands.Cog):
     @player_connected()
     @in_same_channel()
     async def equalizer(self, ctx):
-        """Define um equalizador"""
+        """Defines an equalizer"""
         player: WebPlayer = self.bot.wavelink.get_player(ctx.guild.id, cls=WebPlayer)
 
         if ctx.channel != player.bound_channel:
             return await ctx.send(
-                f"Epa, estou sendo usado no canal {player.bound_channel.mention}", delete_after=5
+                f"Whoops, I'm being used on the channel {player.bound_channel.mention}", delete_after=5
             )
 
         eqs = {
@@ -323,8 +323,8 @@ class Music(commands.Cog):
             "4️⃣": ["Piano", wavelink.eqs.Equalizer.piano()],
         }
 
-        embed = discord.Embed(title="Selecione um equalizador")
-        embed.description = f"Equalizador atual - **{player.eq.name}**\n\n1. Flat \n2. Boost\n3. Metal\n4. Piano"
+        embed = discord.Embed(title="Select an equalizer")
+        embed.description = f"Current equalizer - **{player.eq.name}**\n\n1. Flat \n2. Boost\n3. Metal\n4. Piano"
         embed.set_thumbnail(url="https://cdn.shahriyar.dev/equalizer.png")
 
         msg = await ctx.send(embed=embed)
@@ -354,7 +354,7 @@ class Music(commands.Cog):
             await player.set_equalizer(selected_eq)
 
             embed.description = (
-                f"Equalizador atual - **{eqs[reaction.emoji][0]}**\n\n"
+                f"Current equalizer - **{eqs[reaction.emoji][0]}**\n\n"
                 "1. Flat \n2. Boost\n3. Metal\n4. Piano"
             )
 
@@ -362,14 +362,14 @@ class Music(commands.Cog):
 
     @commands.command(aliases=["lyric"])
     async def lyrics(self, ctx, query: str = None):
-        """Procura letra de música"""
+        """Search song lyrics"""
         if not query:
             player: WebPlayer = self.bot.wavelink.get_player(
                 ctx.guild.id, cls=WebPlayer
             )
             if not player.is_playing:
                 return await ctx.send(
-                    "Nada está tocando. Toque uma música para ver suas letras ou digite o nome de uma música enquanto usa este comando"
+                    "Nothing is playing. Play a song to see its lyrics or type a song name while using this command"
                 )
 
             title = player.current.title

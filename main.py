@@ -26,7 +26,7 @@ class MusicBot(commands.AutoShardedBot):
 
         self.can_function = False
         self.error_message = (
-            "Eco BOT não está pronto para ouvir seus comandos. Por favor, tente depois de alguns minutos."
+            "Eco BOT is not ready to listen to your commands. Please try after a few minutes."
         )
 
         if not hasattr(self, "wavelink"):
@@ -39,7 +39,7 @@ class MusicBot(commands.AutoShardedBot):
 
 
     async def on_ready(self):
-        print(f"{self.user} Operando em --- 100%")
+        print(f"{self.user} Operating at --- 100%")
         await bot.change_presence(activity=discord.Activity(type = discord.ActivityType.listening, name = "/help"))
 
 
@@ -60,7 +60,7 @@ class MusicBot(commands.AutoShardedBot):
                 player: WebPlayer = self.wavelink.get_player(guild.id, cls=WebPlayer)
                 try:
                     await player.connect(guild.me.voice.channel.id)
-                    print(f"Conectado ao canal voz -> {guild.me.voice.channel.id}")
+                    print(f"Connected to voice channel -> {guild.me.voice.channel.id}")
                 except Exception as e:
                     print(e)
 
@@ -76,7 +76,7 @@ bot.multiplier = 1
 
 @bot.event
 async def on_member_join(ctx):
-    role = discord.utils.get(ctx.guild.roles, name = 'Membros')
+    role = discord.utils.get(ctx.guild.roles, name = 'Members')
     await ctx.add_roles(role)
 
 @bot.event
@@ -84,17 +84,15 @@ async def on_member_join(member):
         guild = member.guild
         channel = guild.system_channel 
         if channel.permissions_for(guild.me).send_messages: 
-            f1 = 'é um prazer recebê-lo(a) aqui!'
-            f2 = 'você não irá se aperrender em ficar!'
-            f3 = 'pegue um cafézinho e fique a vontade.'
-            f4 = 'pode ficar tranquilo(a) que aqui parada é séria (KKK).'
-            rf = format(random.choice([f1, f2, f3, f4]))
-            await channel.send(f"Obrigado por se juntar conosco {member.mention} {str(rf)}")
+            f1 = 'it is a pleasure to welcome you here!'
+            f2 = 'grab a cup of coffee and make yourself comfortable.'
+            rf = format(random.choice([f1, f2]))
+            await channel.send(f"Thanks for joining us {member.mention} {str(rf)}")
 
 @bot.event
 async def on_command_error(ctx, error):
         if isinstance(error, commands.CommandNotFound):
-            await ctx.send('🤔 Comando inválido. use `/help` para ver a lista de comandos')
+            await ctx.send('🤔 Invalid command. use `/help` to see the list of commands')
 
 @bot.event
 async def on_guild_join(guild):
@@ -120,40 +118,18 @@ async def on_message(message):
             lvl = math.sqrt(exp) / bot.multiplier
         
             if lvl.is_integer():
-                await message.channel.send(f"{message.author.mention} Você está no nível: {int(lvl)} agora.")
+                await message.channel.send(f"{message.author.mention} You are on the level: {int(lvl)} now.")
 
         await bot.db.commit()
 
     await bot.process_commands(message)
 
 
-# async def eco(ctx): 
-#   """Inicia a conversa com a I.A integrada"""
-#   GPT_TOKEN = os.getenv("GPT_TOKEN")
-#   query = ctx.content
-#   response = openai.Completion.create(
-#       api_key = GPT_TOKEN,
-#       model="text-davinci-003",
-#       prompt=query,
-#       temperature=0.5,
-#       max_tokens=1500,
-#       top_p=0.3,
-#       frequency_penalty=0.5,
-#       presence_penalty=0.0
-#   )
-#   await ctx.channel.send(content=response['choices'][0]['text'].replace(str(query), ""))
 
-# @bot.event
-# async def on_message(ctx):
-#     if ctx.author == bot.user:
-#         return
-
-#     if 'eco' in ctx.content:
-#         await eco(ctx)
 
 @bot.command(name="rank", aliases=["rk"])
 async def rank(ctx, member: discord.Member=None):
-    """Exibe Seu Status No Servidor"""
+    """Display Your Server Status"""
     if member is None: member = ctx.author
 
     # get user exp
@@ -214,7 +190,7 @@ async def rank(ctx, member: discord.Member=None):
 
 @bot.command(name="leaderboard", aliases=["lb"])
 async def leaderboard(ctx): 
-    """Exibe A Tabela De Níveis"""
+    """Displays the Level Table"""
     buttons = {}
     for i in range(1, 6):
         buttons[f"{i}\N{COMBINING ENCLOSING KEYCAP}"] = i # only show first 5 pages
@@ -224,7 +200,7 @@ async def leaderboard(ctx):
     index = 1
     entries_per_page = 10
 
-    embed = discord.Embed(title=f"Entre os melhores: Página {current}", description="", colour=discord.Colour.gold())
+    embed = discord.Embed(title=f"Among the best: Page {current}", description="", colour=discord.Colour.gold())
     msg = await ctx.send(embed=embed)
 
     for button in buttons:
@@ -232,7 +208,7 @@ async def leaderboard(ctx):
 
     while True:
         if current != previous_page:
-            embed.title = f"Entre os melhores: Página  {current}"
+            embed.title = f"Among the best: Page  {current}"
             embed.description = ""
 
             async with bot.db.execute(f"SELECT user_id, exp FROM guildData WHERE guild_id = ? ORDER BY exp DESC LIMIT ? OFFSET ? ", (ctx.guild.id, entries_per_page, entries_per_page*(current-1),)) as cursor:
@@ -280,7 +256,7 @@ winningConditions = [
 
 @bot.command(name="tictactoe", aliases=["ttt"])
 async def tictactoe(ctx, p1: discord.Member, p2: discord.Member):
-    """Inicia o jogo da velha com um player"""
+    """Starts tic-tac-toe with a player"""
     global count
     global player1
     global player2
@@ -313,16 +289,16 @@ async def tictactoe(ctx, p1: discord.Member, p2: discord.Member):
         num = random.randint(1, 2)
         if num == 1:
             turn = player1
-            await ctx.send("É a vez de <@" + str(player1.id) + ">.")
+            await ctx.send("It's time to <@" + str(player1.id) + ">.")
         elif num == 2:
             turn = player2
-            await ctx.send("É a vez de <@" + str(player2.id) + ">.")
+            await ctx.send("It's time to <@" + str(player2.id) + ">.")
     else:
-        await ctx.send("O jogo está em progresso! Termine esse para começar outro.")
+        await ctx.send("The game is in progress! Finish this one to start another one.")
 
 @bot.command(name="place", aliases=["set", "pl"])
 async def place(ctx, pos: int):
-    """Informa a posição do lugar escolhido de 1 a 9"""
+    """Informs the position of the chosen seat from 1 to 9"""
     global turn
     global player1
     global player2
@@ -354,10 +330,10 @@ async def place(ctx, pos: int):
                 checkWinner(winningConditions, mark)
                 print(count)
                 if gameOver == True:
-                    await ctx.send(mark + " venceu!")
+                    await ctx.send(mark + " won!")
                 elif count >= 9:
                     gameOver = True
-                    await ctx.send("Empatou!")
+                    await ctx.send("Tied!")
 
                 # switch turns
                 if turn == player1:
@@ -365,11 +341,11 @@ async def place(ctx, pos: int):
                 elif turn == player2:
                     turn = player1
             else:
-                await ctx.send("Certifique-se de escolher um número entre 1 e 9 em um bloco não marcado.")
+                await ctx.send("Be sure to choose a number between 1 and 9 in an unmarked block.")
         else:
-            await ctx.send("Não é a sua vez.")
+            await ctx.send("It's not your turn.")
     else:
-        await ctx.send("Inicie um novo jogo usando o comando !tictactoe.")
+        await ctx.send("Start a new game using the !tictactoe command.")
 
 
 def checkWinner(winningConditions, mark):
@@ -382,14 +358,14 @@ def checkWinner(winningConditions, mark):
 async def tictactoe_error(ctx, error):
     print(error)
     if isinstance(error, commands.BadArgument):
-        await ctx.send("Mencione 2 jogadores para este comando.")
+        await ctx.send("Mention 2 players for this command.")
     # elif isinstance(error, commands.BadArgument):
     #     await ctx.send("Por favor, certifique-se de mencionar/pingar jogadores (Ex. <@Eco>).")
 
 @place.error
 async def place_error(ctx, error):
     if isinstance(error, commands.BadArgument):
-        await ctx.send("Insira uma posição que você gostaria de marcar.")
+        await ctx.send("Enter a position you would like to tag.")
     # elif isinstance(error, commands.BadArgument):
     #     await ctx.send("Certifique-se de inserir um número inteiro.")
 
@@ -727,7 +703,7 @@ async def run_game(msg, cur_shape):
         await run_game(msg, cur_shape)
     else:
         # print('GAME OVER')
-        desc = 'Pontos: {} \n Linhas: {} \n \n Precione ▶ para jogar novamente.'.format(points, lines)
+        desc = 'Points: {} \n Lines: {} \n \n Press ▶ to play again.'.format(points, lines)
         embed = discord.Embed(title='GAME OVER', description=desc, color=embed_colour)
         await msg.edit(embed=embed)
         await msg.remove_reaction("⬅", bot.user) #Left
@@ -764,10 +740,10 @@ make_empty_board()
 
 @bot.command(name="tetris", aliases=["trs"])
 async def tetris(ctx): #Starts embed
-    """Começa o jogo Tetris"""
+    """Start the Tetris game"""
     await reset_game()
-    embed = discord.Embed(title='Tetris - EcoDJ', description=format_board_as_str(), color=embed_colour)
-    embed.add_field(name='Como jogar:', value='Use ⬅ ⬇ ➡ para mover esquerda, baixo, e direita respectivamente. \n  \n Use 🔃 para girar a peça. \n \n Presione ▶ para Jogar.', inline=False)
+    embed = discord.Embed(title='Tetris - Eco Bot', description=format_board_as_str(), color=embed_colour)
+    embed.add_field(name='How to play:', value='Use ⬅ ⬇ ➡ to move left, down, and right respectively. \n  \n Use 🔃 to rotate the piece. \n \n Press ▶ to play.', inline=False)
 
     msg = await ctx.send(embed=embed)
 

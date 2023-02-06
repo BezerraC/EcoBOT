@@ -1,6 +1,7 @@
 import asyncio
-import discord
+
 import async_timeout
+import discord
 from wavelink import Player
 
 
@@ -9,7 +10,7 @@ class WebPlayer(Player):
         super().__init__(*args, **kwargs)
 
         self.queue = asyncio.Queue()
-        self.loop = "NENHUM"  # CURRENT, PLAYLIST
+        self.loop = "NONE"  # CURRENT, PLAYLIST
         self.currently_playing = None
         self.bound_channel = None
         self.controller_message = None
@@ -68,7 +69,7 @@ class WebPlayer(Player):
 
         embed.set_thumbnail(url=track.thumb)
         embed.add_field(
-            name="Tamanho",
+            name="Size",
             value=f"{int((self.position / 1000) // 60)}:{int((self.position / 1000) % 60)}/{int((track.length / 1000) // 60)}:{int((track.length / 1000) % 60)}",
         )
         embed.add_field(name="Looping", value=self.loop)
@@ -76,14 +77,14 @@ class WebPlayer(Player):
 
         next_song = ""
 
-        if self.loop == "ATUAL":
+        if self.loop == "CURRENT":
             next_song = self.current.title
         else:
             if len(self.queue._queue) > 0:
                 next_song = self.queue._queue[0].title
 
         if next_song:
-            embed.add_field(name="Proxima música", value=next_song, inline=False)
+            embed.add_field(name="Next music", value=next_song, inline=False)
 
         self.controller_message = await self.bound_channel.send(embed=embed)
         self.bot.after_controller = 0

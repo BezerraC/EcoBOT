@@ -3,24 +3,24 @@ from discord.ext import commands
 
 
 class News(commands.Cog):
-    """Informa as últimas atualizações"""
+    """Inform the latest updates"""
 
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(name="news", aliases=["nw"])
     async def news(self, ctx):
-        """Informa as últimas atualizações"""
-        embed = discord.Embed(title="NOVIDADES 🎉🎉", color=discord.Color(0x2F3136))
+        """Inform the latest updates"""
+        embed = discord.Embed(title="NEWS 🎉🎉", color=discord.Color(0x2F3136))
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
 
-        description = f"Confira as últimas atualizações\n\n"
+        description = f"Check the latest updates\n\n"
        
-        description += "**Música** \nAdicionado o comando `/stop`.\n\n"
-        description += "**Eco I.A** \nChame o Eco Bot apenas digitando `eco` em qualquer lugar de sua frase sem a necessidade do prefixo.\n\n"
+        description += "**Eco I.A** \nCall Eco Bot just by typing `eco` anywhere in your sentence without needing the prefix.\n\n"
+        description += "**Language** \nEcobot's content is now all in English to reach an international audience 	"
         
-        description += "Desenvolvido por: Eco#0745 \n\n"
-        description += "*para mais informações acione o [desenvolvedor](https://discord.gg/HahR7qjQ7s)*"
+        description += "Developed by Eco#0745 \n\n"
+        description += "*For more information call [developer](https://discord.gg/HahR7qjQ7s)*"
 
         embed.description = description
         await ctx.message.delete() 

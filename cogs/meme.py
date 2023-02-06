@@ -12,15 +12,15 @@ from discord.ext import commands
 
 
 class Meme(commands.Cog):
-    """Comandos De Meme"""
+    """Meme Commands"""
 
     def __init__(self, bot):
         self.bot = bot
         self.URL_REG = re.compile(r"https?://(?:www\.)?.+")
 
-    @commands.command(name="meme", aliases=["m"])
+    @commands.command(name="memebr", aliases=["mbr"])
     async def meme(self, ctx):
-        """Exibe um meme aleatório"""
+        """Displays a meme from a Brazilian subreddit"""
         async with aiohttp.ClientSession() as cs:
             a = 'DiretoDoZapZap'
             b = 'HUEStation'
@@ -28,6 +28,18 @@ class Meme(commands.Cog):
             d = 'MemesBR'
             y = format(random.choice([a, b, c, d]))
             x =  f'https://meme-api.com/gimme/{str(y)}'
+            print(x)
+            async with cs.get(x) as r:
+                res = await r.json()
+                embed = discord.Embed(title=res['title'], color=0xD77AFE)
+                embed.set_image(url=res['url'])
+                await ctx.send(embed=embed)
+
+    @commands.command(name="memeus", aliases=["mus"])
+    async def meme(self, ctx):
+        """Displays a meme from an American subreddit"""
+        async with aiohttp.ClientSession() as cs:
+            x =  f'https://meme-api.com/gimme/memes'
             print(x)
             async with cs.get(x) as r:
                 res = await r.json()

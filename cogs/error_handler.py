@@ -11,7 +11,7 @@ class Errorhandler(commands.Cog):
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
-            await ctx.send(f"`{error.param.name}` é de preenchimento obrigatório.")
+            await ctx.send(f"`{error.param.name}` is required.")
 
         if isinstance(error, commands.CommandNotFound):
             pass
@@ -47,17 +47,17 @@ class Errorhandler(commands.Cog):
 
         if isinstance(error, commands.MaxConcurrencyReached):
             await ctx.send(
-                "Você está tentando executar o mesmo comando várias vezes ao mesmo tempo. Por favor pare. Se você continuar recebendo este problema entre em contado com o Eco#0745"
+                "You are trying to run the same command multiple times at the same time. Please stop. If you continue to experience this problem contact Eco#0745"
             )
 
         if isinstance(error, PlayerNotConnected):
-            await ctx.send("Eco BOT não está conectado em nenhum canal de voz.")
+            await ctx.send("Eco BOT is not connected to any voice channel.")
 
         if isinstance(error, MustBeSameChannel):
-            await ctx.send("Por favor entre no canal de voz em que estou conectado.")
+            await ctx.send("Please join the voice channel I am connected.")
 
         if isinstance(error, NotConnectedToVoice):
-            await ctx.send("Ops, parece que você não está conectado em nenhum canal de voz.")
+            await ctx.send("Oops, looks like you're not logged into any voice channels.")
 
 
 def setup(bot):

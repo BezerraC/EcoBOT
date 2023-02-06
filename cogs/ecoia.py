@@ -16,14 +16,14 @@ from essentials.player import WebPlayer
 
 
 class Ecoia(commands.Cog):
-    """Comandos De IA"""
+    """IA Commands"""
 
     def __init__(self, bot):
         self.bot = bot
 
     @commands.Cog.listener()
     async def on_message(self, ctx):
-        """Inicia a conversa com a I.A integrada"""
+        """Start the conversation with AI"""
         if 'eco' in ctx.content:
             GPT_TOKEN = os.getenv("GPT_TOKEN")
             query = ctx.content.replace("eco","")

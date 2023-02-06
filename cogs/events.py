@@ -1,6 +1,7 @@
 import wavelink
-from essentials.player import WebPlayer
 from discord.ext import commands
+
+from essentials.player import WebPlayer
 
 
 class MusicEvents(commands.Cog, wavelink.WavelinkMixin):
@@ -61,7 +62,7 @@ class MusicEvents(commands.Cog, wavelink.WavelinkMixin):
     @wavelink.WavelinkMixin.listener("on_track_end")
     @wavelink.WavelinkMixin.listener("on_track_exception")
     async def on_player_stop(self, node: wavelink.Node, payload):
-        if payload.player.loop == "ATUAL":
+        if payload.player.loop == "CURRENT":
             return await payload.player.play(payload.player.currently_playing)
 
         if payload.player.loop == "PLAYLIST":

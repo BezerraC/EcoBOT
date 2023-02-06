@@ -12,19 +12,19 @@ class HelpCog(commands.HelpCommand):
         prefix = ctx.prefix
         pre = self.clean_prefix
 
-        embed = discord.Embed(title="Ajuda do Eco BOT", color=self.color)
+        embed = discord.Embed(title="Eco BOT help", color=self.color)
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
 
-        description = f"Para obter ajuda mais detalhada escreva: `{prefix}help <comando>` \n\n"
-        description += "Para saber as ultimas atualizações escreva: `/news` \n\n"
-        description += "**Comandos de I.A** \n`eco` Inicie uma conversa com a I.A Integrada, ex: fala comigo eco..\n\n"
-        description += "**Comandos de Música** \n`/play` Pesquise e reproduza qualquer música\n\n`/stop` Para todo o player de música\n\n`/skip` Pule para a próxima música ou pare a música atual\n\n`/pause` Pausar a música\n\n`/resume` Volte onde a música parou\n\n`/seek` Avançar ou retroceder tantos segundos da música\n\n`/volume` Alterar o volume do bot\n\n`/loop` Loop the music with 3 possible options\n\n`/nowplaying` Veja a música que está tocando atualmente\n\n`/queue` Mostrar a lista de músicas\n\n`/equalizer` Altere a equalização da música com 3 opções diferentes\n\n`/lyrics` Veja a letra da música\n\n"
-        description += "**Comandos de Nível** \n`/rank` Mostre seu nível no servidor\n\n`/leaderboard` Mostrar a tabela de classificação do servidor\n\n "
-        description += "**Comandos de Games** \n Jogo da Velha:\n `/tictactoe` Comece o jogo da velha com um jogador\n\n `/place` Informa a posição do local escolhido de 1 a 9\n\n Tetris:\n `/tetris` Começa o jogo tetris\n\n"
-        description += "**Comandos de Meme** \n `/meme` Receba um meme de algum subreddit de meme\n\n"
+        description = f"For more detailed help write: `{prefix}help <command>` \n\n"
+        description += "For the latest updates write: `/news` \n\n"
+        description += "**I.A Commands** \n`eco` Inicie uma conversa com a I.A Integrada, ex: fala comigo eco..\n\n"
+        description += "**Music Commands** \n`/play` Search and play any song\n\n`/stop` Stop the music player\n\n`/skip` Skip to next song\n\n`/pause` Pause the music\n\n`/resume` Go back where the music left off\n\n`/seek` Fast-forward or rewind as many seconds of the song\n\n`/volume` Change bot volume\n\n`/loop` Loop the music with 3 possible options\n\n`/nowplaying` See the song that is currently playing\n\n`/queue` Show the song list\n\n`/equalizer` Change music equalization with 3 different options\n\n`/lyrics` See the lyrics of the song\n\n"
+        description += "**Level Commands** \n`/rank` Show your level on the server\n\n`/leaderboard` Show server leaderboard\n\n "
+        description += "**Games Commands** \n Tic Tac Toe:\n `/tictactoe` Start tic-tac-toe with one player\n\n `/place` Informs the position of the chosen location from 1 to 9\n\n Tetris:\n `/tetris` Start the tetris game\n\n"
+        description += "**Meme Commands** \n `/memebr` Get a meme from some brazilian meme subreddit\n\n `/memeus` Get a meme from some american meme subreddit\n\n"
         # description += "**Comandos de Meme** \n`!meme` Receba um meme 🙂\n\n"
-        description += "Desenvolvido por: Eco#0745 \n\n"
-        description += "*para mais informações acione o [desenvolvedor](https://discord.gg/HahR7qjQ7s)*"
+        description += "Developed by Eco#0745 \n\n"
+        description += "*For more information call [developer](https://discord.gg/HahR7qjQ7s)*"
 
         embed.description = description
 
@@ -54,15 +54,15 @@ class HelpCog(commands.HelpCommand):
             ]
 
         if len(shown_commands) == 0:
-            return await ctx.send("Sem comandos.")
+            return await ctx.send("No commands.")
 
         if cog.description:
             cog_help = cog.description
         else:
-            cog_help = "Sem comandos fornecidos"
+            cog_help = "No commands provided"
 
         embed.title = f"{cog.qualified_name}"
-        embed.description += f"{cog_help}\nUse `{pre}help <comando>` para mais detalhes.\n\n**Comandos :** \n"
+        embed.description += f"{cog_help}\nUse `{pre}help <command>` for more details.\n\n**Commands :** \n"
 
         for command in shown_commands:
             embed.description += f"▪︎ {pre}{command.qualified_name} "
@@ -88,7 +88,7 @@ class HelpCog(commands.HelpCommand):
             command.hidden == True or command.enabled == False
         ) and await ctx.bot.is_owner(ctx.author) == False:
             return await ctx.send(
-                f'Nenhum comando chamado "{command.qualified_name}" encontrado.'
+                f'No command called "{command.qualified_name}" founded.'
             )
 
         if command.signature:
@@ -96,10 +96,10 @@ class HelpCog(commands.HelpCommand):
         else:
             embed.title = f"{command.qualified_name}\n"
 
-        embed.description = command.help or "Nenhuma descrição fornecida."
+        embed.description = command.help or "No description provided."
 
         if len(command.aliases) > 0:
-            embed.description += "\nAbreviação : " + ", ".join(command.aliases)
+            embed.description += "\aAbbreviation : " + ", ".join(command.aliases)
 
         embed.set_thumbnail(url=ctx.bot.user.avatar_url)
         await ctx.send(embed=embed)
@@ -116,13 +116,13 @@ class HelpCog(commands.HelpCommand):
         else:
             embed.title = group.qualified_name + " - group"
 
-        embed.description = group.help or "Nenhuma descrição fornecida."
-        embed.description += f"\nUse `{pre}help {group.qualified_name} <sub_command>` para mais detalhes do grupo de comandos. \n\n**Subcommands : **\n"
+        embed.description = group.help or "No description provided."
+        embed.description += f"\nUse `{pre}help {group.qualified_name} <sub_command>` for more details of the command group. \n\n**Subcommands : **\n"
 
         if await ctx.bot.is_owner(ctx.author):
             group_commands = [command for command in group.commands]
             if len(group_commands) == 0:
-                return await ctx.send("Este grupo não tem nenhum subcomando")
+                return await ctx.send("This group has no subcommands")
         else:
             group_commands = [
                 command
@@ -131,7 +131,7 @@ class HelpCog(commands.HelpCommand):
             ]
 
         if len(group_commands) == 0:
-            return await ctx.send(f'Nenhum comando chamado "{group.qualified_name}" encontrado.')
+            return await ctx.send(f'No command called "{group.qualified_name}" founded.')
 
         for command in group_commands:
             if command.signature:
@@ -148,7 +148,7 @@ class HelpCog(commands.HelpCommand):
 
 
 class Help(commands.Cog):
-    """Comandos de ajuda"""
+    """Help Commands"""
 
     def __init__(self, client):
         self.client = client
