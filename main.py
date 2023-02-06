@@ -812,6 +812,7 @@ async def on_reaction_add(reaction, user):
 bot.load_extension("cogs.music")
 bot.load_extension("cogs.meme")
 bot.load_extension("cogs.events")
+bot.load_extension("cogs.invite")
 bot.load_extension("cogs.ecoia")
 bot.load_extension("cogs.help")
 bot.load_extension("cogs.news")

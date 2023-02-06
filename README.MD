@@ -101,7 +101,17 @@
   <h2 dir="auto">✔️ Meme Command:</h2>
     <ul>
     <li>
-      meme <code>Send a meme from some subreddit for you</code>
+      memebr <code>Get a meme from some brazilian meme subreddit</code>
+    </li>
+    <li>
+      memeus <code>Get a meme from some american meme subreddit</code>
+    </li>
+  </ul>
+
+  <h2 dir="auto">✔️ Invite Command:</h2>
+    <ul>
+    <li>
+      invite <code>Generate an instant server invite</code>
     </li>
   </ul>
       
