@@ -17,7 +17,7 @@ class News(commands.Cog):
         description = f"Check the latest updates\n\n"
        
         description += "**Eco I.A** \nCall Eco Bot just by typing `eco` anywhere in your sentence without needing the prefix.\n\n"
-        description += "**Language** \nEcobot's content is now all in English to reach an international audience 	"
+        description += "**Language** \nEcobot's content is now all in English to reach an international audience\n\n"
         
         description += "Developed by Eco#0745 \n\n"
         description += "*For more information call [developer](https://discord.gg/HahR7qjQ7s)*"

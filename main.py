@@ -86,7 +86,9 @@ async def on_member_join(member):
         if channel.permissions_for(guild.me).send_messages: 
             f1 = 'it is a pleasure to welcome you here!'
             f2 = 'grab a cup of coffee and make yourself comfortable.'
-            rf = format(random.choice([f1, f2]))
+            f3 = 'we are so glad you are here'
+            f4 = 'We re so happy to see you.'
+            rf = format(random.choice([f1, f2, f3, f4]))
             await channel.send(f"Thanks for joining us {member.mention} {str(rf)}")
 
 @bot.event
