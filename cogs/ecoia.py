@@ -25,18 +25,20 @@ class Ecoia(commands.Cog):
     async def on_message(self, ctx):
         """Start the conversation with AI"""
         if 'eco' in ctx.content:
-            GPT_TOKEN = os.getenv("GPT_TOKEN")
-            query = ctx.content.replace("eco","")
-            response = openai.Completion.create(
-                api_key = GPT_TOKEN,
-                model="text-davinci-003",
-                prompt=query,
-                temperature=0.5,
-                max_tokens=1500,
-                top_p=0.3,
-                frequency_penalty=0.5,
-                presence_penalty=0.0
-            )
+            async with ctx.channel.typing():
+                GPT_TOKEN = os.getenv("GPT_TOKEN")
+                query = ctx.content.replace("eco","")
+                response = openai.Completion.create(
+                    api_key = GPT_TOKEN,
+                    model="text-davinci-003",
+                    prompt=query,
+                    temperature=0.5,
+                    max_tokens=3000,
+                    top_p=0.3,
+                    frequency_penalty=0.5,
+                    presence_penalty=0.0
+                )
+                
             await ctx.channel.send(content=response['choices'][0]['text'].replace(str(query), ""))
             print (query)
 
