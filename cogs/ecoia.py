@@ -33,14 +33,14 @@ class Ecoia(commands.Cog):
                     model="text-davinci-003",
                     prompt=query,
                     temperature=0.5,
-                    max_tokens=3000,
+                    max_tokens=2000,
                     top_p=0.3,
                     frequency_penalty=0.5,
                     presence_penalty=0.0
                 )
                 
             await ctx.channel.send(content=response['choices'][0]['text'].replace(str(query), ""))
-            print (query)
+            # print (query)
 
 def setup(bot):
     bot.add_cog(Ecoia(bot))

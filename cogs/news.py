@@ -16,7 +16,6 @@ class News(commands.Cog):
 
         description = f"Check the latest updates\n\n"
        
-        description += "**Language** \nEcobot's content is now all in English to reach an international audience\n\n"
         description += "**Invite Command** \nNow you can generate an instant server invite.\n\n"
 
         description += "**Eco I.A** \nChange the max_token to `3000`, now he can process more lines in your answer\nAdd type effect, wen he staying processing a answer you can view the time in `typing`\n\n"
