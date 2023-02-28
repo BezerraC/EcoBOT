@@ -47,10 +47,10 @@ class MusicBot(commands.AutoShardedBot):
         await self.wait_until_ready()
 
         await self.wavelink.initiate_node(
-            host="lava1.horizxon.studio",
-            port=80,
-            rest_uri="http://lava1.horizxon.studio:80",
-            password="horizxon.studio",
+            host="lavalink.game-energy.de",
+            port=2333,
+            rest_uri="lavalink.game-energy.de:2333",
+            password="gameEnergyHost23!",
             identifier="MAIN",
             region="brazil",
         )
