@@ -98,7 +98,7 @@ async def on_command_error(ctx, error):
 
 @bot.event
 async def on_guild_join(guild):
-    await guild.text_channels[0].send("Salve gente bonita é uma honra está aqui\npara começar digite /help")
+    await guild.text_channels[0].send("Hello everyone, it's a pleasure to be here with you\nto see my information type /help")
 
 
 async def initialize():

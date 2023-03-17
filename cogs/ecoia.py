@@ -22,25 +22,27 @@ class Ecoia(commands.Cog):
         self.bot = bot
 
     @commands.Cog.listener()
-    async def on_message(self, ctx):
+    async def on_message(self, message):
         """Start the conversation with AI"""
-        if 'eco' in ctx.content:
-            #async with ctx.channel.typing():
-            GPT_TOKEN = os.getenv("GPT_TOKEN")
-            query = ctx.content.replace("eco","")
-            response = openai.Completion.create(
-                api_key = GPT_TOKEN,
-                model="text-davinci-003",
-                prompt=query,
-                temperature=0.5,
-                max_tokens=2000,
-                top_p=0.3,
-                frequency_penalty=0.5,
-                presence_penalty=0.0
-            )
-                
-            await ctx.channel.send(content=response['choices'][0]['text'].replace(str(query), ""))
-            # print (query)
+        if message.author.bot:
+            print('OPs, u are a bot xD')
+        else:
+            if 'eco' in message.content:
+                #async with ctx.channel.typing():
+                GPT_TOKEN = os.getenv("GPT_TOKEN")
+                query = message.content.replace("eco","")
+                response = openai.Completion.create(
+                    api_key = GPT_TOKEN,
+                    model="text-davinci-003",
+                    prompt=query,
+                    temperature=0.5,
+                    max_tokens=2000,
+                    top_p=0.3,
+                    frequency_penalty=0.5,
+                    presence_penalty=0.0
+                )
+                await message.channel.send(content=response['choices'][0]['text'].replace(str(query), ""))
+                # print (query)
 
 def setup(bot):
     bot.add_cog(Ecoia(bot))
