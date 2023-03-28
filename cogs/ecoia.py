@@ -29,19 +29,18 @@ class Ecoia(commands.Cog):
 
         if not message.author.bot:
             if eco in msg:
-                async with message.channel.typing():
-                    GPT_TOKEN = os.getenv("GPT_TOKEN")
-                    query = message.content #.replace("eco","")
-                    response = openai.Completion.create(
-                        api_key = GPT_TOKEN,
-                        model="text-davinci-003",
-                        prompt=query,
-                        temperature=0.5,
-                        max_tokens=2000,
-                        top_p=0.3,
-                        frequency_penalty=0.5,
-                        presence_penalty=0.0
-                    )
+                GPT_TOKEN = os.getenv("GPT_TOKEN")
+                query = message.content #.replace("eco","")
+                response = openai.Completion.create(
+                    api_key = GPT_TOKEN,
+                    model="text-davinci-003",
+                    prompt=query,
+                    temperature=0.5,
+                    max_tokens=2000,
+                    top_p=0.3,
+                    frequency_penalty=0.5,
+                    presence_penalty=0.0
+                )
                 await message.channel.send(content=response['choices'][0]['text'].replace(str(query), ""))
                 # print (query)
 
