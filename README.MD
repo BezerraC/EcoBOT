@@ -17,19 +17,73 @@
   </a>
   
  </div>
+ <br>
 
-<h3 dir="auto">
-🤖 <b>A powerful bot for your discord server, made with Python 3.9.10</b>
-<br>
+> A powerful bot for your discord server, made with Python
+
+## 💻 Prerequisites
+
+Before you begin, make sure you've met the following requirements:
+
+- You have installed the latest version of `Python`
+- You have a `Windows/Linux/Mac` machine
+- You have a discord `bot token`
+
+## 🚀 Installing EcoBOT
+
+To install EcoBOT, follow these steps:
+
+Linux and macOS:
+
+```
+python3 -m venv venv
+
+source venv/bin/activate
+or
+source venv/bin/activate.csh
+```
+
+Windows:
+
+```
+python -m venv venv
+
+venv\Scripts\activate
+
+pip install -r requirements.txt
+```
+
+## ☕ Using EcoBOT
+
+To use EcoBOT, follow these steps:
+
+```
+python main.py
+```
+
+To run the tests use:
+
+```
+python tests.py
+```
+
+## 📫 Contributing to EcoBOT
+
+To contribute to EcoBOT, follow these steps:
+
+1. Fork this repository.
+2. Create a branch: `git checkout -b <branch_name>`.
+3. Make your changes and commit them: `git commit -m '<commit_message>'`
+4. Push to the original branch: `git push origin <project_name> / <location>`
+5. Create the pull request.
+
+Alternatively, see the GitHub documentation at [how to create a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
+
 🔑 <b>The currently prefix is: <code>/</code></b>
 <br>
+
 </h3>
-<h2 dir="auto">✔️ I.A Commands:</h2>
-   <ul>
-    <li>
-      eco <code>Start the conversation with built-in AI - ChatGPT</code>
-    </li>
-  </ul>
+
 <h2 dir="auto">✔️ Musics Commands:</h2>
 <ul dir="auto">
   <li>
@@ -97,7 +151,6 @@
     </li>
   </ul>
 
-
   <h2 dir="auto">✔️ Meme Command:</h2>
     <ul>
     <li>
@@ -123,6 +176,9 @@
     <li>
       <code>Make Image Generator</code>
     </li>
+    <li>
+      <code>Make IA Commands</code>
+    </li>
   </ul>
 
   <hr>
@@ -134,3 +190,9 @@
     <a href="https://www.patreon.com/EcoBot791/membership" target="_blank">Patreon</a>
     </h3>
   </div>
+
+## 📝 Author
+
+<img src="https://avatars.githubusercontent.com/u/41126326?v=4" width="150" style="border-radius:15px;" alt="Exemplo imagem">
+
+[@Bezerrac](https://github.com/BezerraC)
