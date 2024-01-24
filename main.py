@@ -47,10 +47,10 @@ class MusicBot(commands.AutoShardedBot):
         await self.wait_until_ready()
 
         await self.wavelink.initiate_node(
-            host="narco.buses.rocks",
-            port=2269,
-            rest_uri="http://narco.buses.rocks:2269",
-            password="glasshost1984",
+            host="lavalink.jirayu.pw",
+            port=2333,
+            rest_uri="http://lavalink.jirayu.pw:2333",
+            password="youshallnotpass",
             identifier="MAIN",
             region="brazil",
         )
@@ -816,6 +816,7 @@ bot.load_extension("cogs.invite")
 bot.load_extension("cogs.ecoia")
 bot.load_extension("cogs.help")
 bot.load_extension("cogs.news")
+#bot.load_extension("cogs.speech")
 bot.load_extension("cogs.error_handler")
 
 bot.load_extension("jishaku") # uncomment this if you want to debug for testing

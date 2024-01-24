@@ -26,7 +26,6 @@ class Ecoia(commands.Cog):
         """Start the conversation with AI"""
         msg = message.content.lower()
         eco = "eco"
-
         if not message.author.bot:
             if eco in msg:
                 GPT_TOKEN = os.getenv("GPT_TOKEN")
