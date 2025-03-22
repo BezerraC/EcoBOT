@@ -22,31 +22,31 @@ class Ecoia(commands.Cog):
             genai.configure(api_key=GEMINI_API_KEY)
 
             model = genai.GenerativeModel("gemini-1.5-flash")
-            user_id = str(message.author.id)  
+            channel_id = str(message.channel.id)
             query = message.content
 
-            # Initializes the user's history if it doesn't already exist.
-            if user_id not in self.history:
-                self.history[user_id] = []
+            # Initializes the history for the channel if it doesn't exist
+            if channel_id not in self.history:
+                self.history[channel_id] = []
 
-            # Adds the current message to the history.
-            self.history[user_id].append(f"<@{user_id}>: {query}")
+            # Adds the current message to the channel's history
+            self.history[channel_id].append(f"<@{message.author.id}>: {query}")
 
-            # Keeps only the last 10 interactions to prevent the history from becoming too large.
-            self.history[user_id] = self.history[user_id][-10:]
+            # Keeps only the last 10 messages to prevent excessive history
+            self.history[channel_id] = self.history[channel_id][-10:]
 
-            # Creates a contextualized prompt using the history.
-            context = "\n".join(self.history[user_id])
-            prompt = f"Your name is Eco Bot and you are interacting with the User inside the Discord server. Your creator's name is <@208791519136710657>. Here is the conversation history:\n{context}\n\nNow, reply to the last message with context with the User language:"
+            # Creates a contextualized prompt using the history
+            context = "\n".join(self.history[channel_id])
+            prompt = f"Your name is Eco Bot, and you are interacting inside a Discord server. Your creator's name is <@208791519136710657>. Here is the conversation history from this channel:\n{context}\n\nNow, reply to the last message with context in the User's language:"
 
-            # Generates a response from Gemini.
+            # Generates a response from Gemini
             response = model.generate_content(prompt)
 
             if response and response.text:
-                # Adds the response to the history.
-                self.history[user_id].append(response.text)
+                # Adds the bot's response to the channel's history
+                self.history[channel_id].append(f"Eco: {response.text}")
 
-                # Sends the response to the user.
+                # Sends the response to the channel
                 await message.channel.send(content=response.text)
 
 def setup(bot):
