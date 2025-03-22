@@ -55,10 +55,10 @@ class Speech(commands.Cog):
                                 frase = microfone.recognize_google(audio, language='pt-BR')
                                 print("Voce disse: " + frase)
                                 await ltg.edit(content=message.author.mention + ": " + frase)
-                                GPT_TOKEN = os.getenv("GPT_TOKEN")
+                                GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
                                 query = message.content #.replace("eco","")
                                 response = openai.Completion.create(
-                                api_key = GPT_TOKEN,
+                                api_key = GEMINI_API_KEY,
                                 model="text-davinci-003",
                                 prompt=frase, #switch to query for text message
                                 temperature=0.5,
@@ -81,10 +81,10 @@ class Speech(commands.Cog):
 
         if not message.author.bot:
             if eco in msg:
-                GPT_TOKEN = os.getenv("GPT_TOKEN")
+                GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
                 query = message.content #.replace("eco","")
                 response = openai.Completion.create(
-                    api_key = GPT_TOKEN,
+                    api_key = GEMINI_API_KEY,
                     model="text-davinci-003",
                     prompt=query,
                     temperature=0.5,
