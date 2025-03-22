@@ -84,6 +84,13 @@ Alternatively, see the GitHub documentation at [how to create a pull request](ht
 
 </h3>
 
+<h2 dir="auto">✔️ IA comands:</h2>
+<ul dir="auto">
+  <li>
+    eco <query> <code>Write a message with "eco" in the sentence</code>
+  </li>
+</ul>
+
 <h2 dir="auto">✔️ Musics Commands:</h2>
 <ul dir="auto">
   <li>
@@ -175,9 +182,6 @@ Alternatively, see the GitHub documentation at [how to create a pull request](ht
     </li>
     <li>
       <code>Make Image Generator</code>
-    </li>
-    <li>
-      <code>Make IA Commands</code>
     </li>
   </ul>
 
