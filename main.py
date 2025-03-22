@@ -47,10 +47,10 @@ class MusicBot(commands.AutoShardedBot):
         await self.wait_until_ready()
 
         await self.wavelink.initiate_node(
-            host="lavalink.jirayu.pw",
-            port=2333,
-            rest_uri="http://lavalink.jirayu.pw:2333",
-            password="youshallnotpass",
+            host="lava-v3.ajieblogs.eu.org",
+            port=80,
+            rest_uri="http://lava-v3.ajieblogs.eu.org:80",
+            password="https://dsc.gg/ajidevserver",
             identifier="MAIN",
             region="brazil",
         )
@@ -819,7 +819,7 @@ bot.load_extension("cogs.news")
 #bot.load_extension("cogs.speech")
 bot.load_extension("cogs.error_handler")
 
-bot.load_extension("jishaku") # uncomment this if you want to debug for testing
+#bot.load_extension("jishaku") # uncomment this if you want to debug for testing
 bot.load_extension("cog_reloader") # Uncomment this if you want to hot reload extensions whenever they get editted
 bot.loop.create_task(initialize())
 TOKEN = os.getenv("TOKEN")
