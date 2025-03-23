@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 
 class Ecoia(commands.Cog):
-    """IA Commands"""
+    """AI Commands"""
 
     def __init__(self, bot):
         self.bot = bot
@@ -17,37 +17,59 @@ class Ecoia(commands.Cog):
         if message.author.bot:
             return
 
-        if "eco" in message.content.lower():
-            GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-            genai.configure(api_key=GEMINI_API_KEY)
+        query = message.content
+        channel_id = str(message.channel.id)
 
-            model = genai.GenerativeModel("gemini-1.5-flash")
-            channel_id = str(message.channel.id)
-            query = message.content
+        GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+        genai.configure(api_key=GEMINI_API_KEY)
 
-            # Initializes the history for the channel if it doesn't exist
-            if channel_id not in self.history:
-                self.history[channel_id] = []
+        model = genai.GenerativeModel("gemini-1.5-flash")
 
-            # Adds the current message to the channel's history
-            self.history[channel_id].append(f"<@{message.author.id}>: {query}")
+        # Initializes the history for the channel if it doesn't exist
+        if channel_id not in self.history:
+            self.history[channel_id] = []
 
-            # Keeps only the last 10 messages to prevent excessive history
-            self.history[channel_id] = self.history[channel_id][-10:]
+        # Adds the current message to the channel's history
+        self.history[channel_id].append(f"<@{message.author.id}>: {query}")
 
-            # Creates a contextualized prompt using the history
-            context = "\n".join(self.history[channel_id])
-            prompt = f"Your name is Eco Bot, and you are interacting inside a Discord server. Your creator's name is <@208791519136710657>. Here is the conversation history from this channel:\n{context}\n\nNow, reply to the last message with context in the User's language:"
+        # Keeps only the last 10 messages to prevent excessive history
+        self.history[channel_id] = self.history[channel_id][-10:]
 
-            # Generates a response from Gemini
-            response = model.generate_content(prompt)
+        # Creates a contextualized prompt with instructions for voice detection
+        context = "\n".join(self.history[channel_id])
+        prompt = (
+            "Your name is Eco Bot, and you are interacting inside a Discord server. "
+            "Your creator's name is <@208791519136710657>. Here is the conversation history from this channel:\n"
+            f"{context}\n\n"
+            "Now, reply to the last message with context in the User's language.\n\n"
+            "IMPORTANT: If the user is asking you to join a voice channel, respond with ONLY the word 'JOIN_VOICE'. "
+            "Otherwise, reply normally to their message."
+        )
 
-            if response and response.text:
-                # Adds the bot's response to the channel's history
-                self.history[channel_id].append(f"Eco: {response.text}")
+        # Generates a response from Gemini
+        response = model.generate_content(prompt)
 
-                # Sends the response to the channel
-                await message.channel.send(content=response.text)
+        if response and response.text:
+            response_text = response.text.strip()
+
+            if response_text == "JOIN_VOICE":
+                # User wants the bot to join voice
+                if message.author.voice and message.author.voice.channel:
+                    voice_channel = message.author.voice.channel
+                    voice_client = discord.utils.get(self.bot.voice_clients, guild=message.guild)
+
+                    if voice_client and voice_client.is_connected():
+                        await voice_client.move_to(voice_channel)
+                    else:
+                        await voice_channel.connect()
+
+                    await message.channel.send(f"✅ Connected to {voice_channel.name}!")
+                else:
+                    await message.channel.send("❌ You need to be in a voice channel for me to join!")
+            else:
+                # Normal AI response
+                self.history[channel_id].append(f"Eco Bot: {response_text}")
+                await message.channel.send(content=response_text)
 
 def setup(bot):
     bot.add_cog(Ecoia(bot))
